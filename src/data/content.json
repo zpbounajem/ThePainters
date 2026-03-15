@@ -1,0 +1,283 @@
+{
+  "languages": [
+    {
+      "code": "en",
+      "name": "English"
+    },
+    {
+      "code": "ar",
+      "name": "العربية"
+    }
+  ],
+  "localeContent": {
+    "en": {
+      "nav": {
+        "home": "Home",
+        "gallery": "Gallery",
+        "beforeAfter": "Before & After",
+        "about": "About",
+        "contact": "Contact",
+        "admin": "Admin"
+      },
+      "pages": {
+        "homeTitle": "The Painters LB",
+        "homeSubtitle": "Interior House Painting in Lebanon",
+        "homeWelcome": "Welcome to The Painters — professional interior painting across Lebanon. Quality finishes, on time.",
+        "viewOurWork": "View Our Work",
+        "aboutTitle": "About Us",
+        "aboutSubtitle": "Professional interior painting in Lebanon",
+        "ourServices": "Our Services",
+        "areasWeServe": "Areas we serve",
+        "faq": "FAQ",
+        "contactTitle": "Contact",
+        "contactSubtitle": "Get in touch for a quote",
+        "sendMessage": "Send us a message",
+        "leavePhone": "Leave your phone number and we'll get back to you.",
+        "chatWhatsApp": "Chat on WhatsApp",
+        "privacyTitle": "Privacy",
+        "beforeAfterTitle": "Before & After",
+        "beforeAfterSubtitle": "See the transformation",
+        "noBeforeAfter": "No before/after photos yet. Check back soon.",
+        "whatClientsSay": "What clients say",
+        "galleryTitle": "Gallery",
+        "contactNameLabel": "Name (optional)",
+        "contactNamePlaceholder": "Your name",
+        "contactPhoneLabel": "Phone number",
+        "contactPhonePlaceholder": "+961 ...",
+        "contactPhoneHint": "So we can reach you back",
+        "contactMessageLabel": "Message (optional)",
+        "contactMessagePlaceholder": "Tell us about your project or ask for a quote...",
+        "contactSendButton": "Send message",
+        "contactSending": "Sending…",
+        "contactErrorPhone": "Please enter your phone number so we can get back to you.",
+        "contactErrorGeneric": "Something went wrong. Please try again.",
+        "contactErrorSend": "Failed to send. Please try again.",
+        "galleryOurWork": "Our Work",
+        "gallerySubtitle": "A selection of our interior painting projects",
+        "galleryCategoriesLabel": "Categories:",
+        "galleryUncategorized": "Uncategorized",
+        "galleryAlbums": "Albums",
+        "galleryPhoto": "photo",
+        "galleryPhotos": "photos",
+        "galleryNoPhotos": "No photos in the gallery yet. Check back soon.",
+        "galleryBackToAlbums": "Albums"
+      },
+      "footer": {
+        "privacy": "Privacy"
+      }
+    },
+    "ar": {
+      "nav": {
+        "home": "الرئيسية",
+        "gallery": "معرض الصور",
+        "beforeAfter": "قبل وبعد",
+        "about": "من نحن",
+        "contact": "تواصل",
+        "admin": "الإدارة"
+      },
+      "pages": {
+        "homeTitle": "The Painters LB",
+        "homeSubtitle": "طلاء داخلي في لبنان",
+        "homeWelcome": "مرحباً بكم في The Painters — طلاء داخلي احترافي في لبنان. جودة وعلي الوقت.",
+        "viewOurWork": "شاهد أعمالنا",
+        "aboutTitle": "من نحن",
+        "aboutSubtitle": "طلاء داخلي احترافي في لبنان",
+        "ourServices": "خدماتنا",
+        "areasWeServe": "المناطق التي نخدمها",
+        "faq": "الأسئلة الشائعة",
+        "contactTitle": "تواصل",
+        "contactSubtitle": "تواصل معنا للحصول على عرض سعر",
+        "sendMessage": "أرسل لنا رسالة",
+        "leavePhone": "اترك رقم هاتفك وسنتواصل معك.",
+        "chatWhatsApp": "تواصل عبر واتساب",
+        "privacyTitle": "الخصوصية",
+        "beforeAfterTitle": "قبل وبعد",
+        "beforeAfterSubtitle": "شاهد التحول",
+        "noBeforeAfter": "لا توجد صور قبل وبعد بعد. تفضل بالزيارة لاحقاً.",
+        "whatClientsSay": "ما يقوله العملاء",
+        "galleryTitle": "معرض الصور",
+        "contactNameLabel": "الاسم (اختياري)",
+        "contactNamePlaceholder": "اسمك",
+        "contactPhoneLabel": "رقم الهاتف",
+        "contactPhonePlaceholder": "+961 ...",
+        "contactPhoneHint": "لنتواصل معك",
+        "contactMessageLabel": "الرسالة (اختياري)",
+        "contactMessagePlaceholder": "أخبرنا عن مشروعك أو اطلب عرض سعر...",
+        "contactSendButton": "إرسال الرسالة",
+        "contactSending": "جاري الإرسال…",
+        "contactErrorPhone": "يرجى إدخال رقم هاتفك لنتواصل معك.",
+        "contactErrorGeneric": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+        "contactErrorSend": "فشل الإرسال. يرجى المحاولة مرة أخرى.",
+        "galleryOurWork": "أعمالنا",
+        "gallerySubtitle": "اختيار من مشاريع الطلاء الداخلي",
+        "galleryCategoriesLabel": "الفئات:",
+        "galleryUncategorized": "بدون فئة",
+        "galleryAlbums": "الألبومات",
+        "galleryPhoto": "صورة",
+        "galleryPhotos": "صور",
+        "galleryNoPhotos": "لا توجد صور في المعرض بعد. تفضل بالزيارة لاحقاً.",
+        "galleryBackToAlbums": "الألبومات"
+      },
+      "footer": {
+        "privacy": "الخصوصية"
+      }
+    }
+  },
+  "bio": "We are a Lebanese team specializing in interior house painting. From walls to ceilings, we deliver clean, lasting finishes and work with you on colors and schedules.",
+  "bioAr": "",
+  "homeCards": [
+    {
+      "id": "1",
+      "icon": "🎨",
+      "title": "Interior Painting",
+      "description": "Walls & ceilings, quality finishes"
+    },
+    {
+      "id": "2",
+      "icon": "📍",
+      "title": "Lebanon",
+      "description": "Serving all regions"
+    },
+    {
+      "id": "3",
+      "icon": "📸",
+      "title": "@thepainters_lb",
+      "description": "Follow us on Instagram"
+    }
+  ],
+  "contact": {
+    "instagram": "thepainters_lb",
+    "phone": "71 677 971 ",
+    "email": "",
+    "location": "Lebanon",
+    "notifyEmail": "",
+    "whatsapp": "",
+    "confirmationMessage": "Message sent! We'll get back to you on this number."
+  },
+  "testimonials": [
+    {
+      "id": "t-1773609655389",
+      "name": "Zyvania Bou Najem",
+      "quote": "Great Job !",
+      "image": ""
+    }
+  ],
+  "faq": [
+    {
+      "id": "faq-1773609675626",
+      "question": "ahhsggdsg? ",
+      "answer": "xxbsbxcb."
+    }
+  ],
+  "beforeAfter": [
+    {
+      "id": "ba-1773609426187",
+      "beforeSrc": "/uploads/1773609426169-ad9uiah.jpeg",
+      "afterSrc": "/uploads/1773609426185-6ivnyg2.jpeg",
+      "caption": "Beirut"
+    }
+  ],
+  "footer": {
+    "copyrightText": "© 2025 The Painters LB. All rights reserved.",
+    "privacyLink": true
+  },
+  "privacyContent": "We use your contact details only to respond to your inquiry. We do not share your data with third parties.",
+  "privacyContentAr": "",
+  "cookieNotice": {
+    "enabled": true,
+    "message": "We use cookies to improve your experience. By continuing you agree to our use of cookies.",
+    "linkText": "Privacy"
+  },
+  "seo": {
+    "home": {
+      "title": "The Painters LB | Interior House Painting Lebanon",
+      "description": "Professional interior house painting in Lebanon. Quality finishes, on time."
+    },
+    "gallery": {
+      "title": "Gallery | The Painters LB",
+      "description": "View our interior painting projects across Lebanon."
+    },
+    "about": {
+      "title": "About Us | The Painters LB",
+      "description": "Professional interior painting team in Lebanon."
+    },
+    "contact": {
+      "title": "Contact | The Painters LB",
+      "description": "Get in touch for a quote. The Painters LB – interior painting in Lebanon."
+    },
+    "privacy": {
+      "title": "Privacy | The Painters LB",
+      "description": "Privacy and data use policy."
+    },
+    "beforeAfter": {
+      "title": "Before & After | The Painters LB",
+      "description": "See the transformation. Before and after our interior painting projects."
+    }
+  },
+  "serviceAreas": "",
+  "serviceAreasAr": "",
+  "galleryCategories": [
+    {
+      "id": "cat-1773602231820",
+      "name": "Doors"
+    },
+    {
+      "id": "cat-1773609299575",
+      "name": "Walls"
+    }
+  ],
+  "galleryImages": [
+    {
+      "id": "1773598202383-yhvmxdb",
+      "src": "/uploads/1773598202383-yhvmxdb.jpeg",
+      "categoryId": "cat-1773602231820"
+    },
+    {
+      "id": "1773602855351-soamkrj",
+      "src": "/uploads/1773602855351-soamkrj.png",
+      "categoryId": "cat-1773602231820"
+    },
+    {
+      "id": "1773609315527-3qjyqr9",
+      "src": "/uploads/1773609315527-3qjyqr9.png",
+      "categoryId": "cat-1773609299575"
+    },
+    {
+      "id": "1773609339374-x0hr9rs",
+      "src": "/uploads/1773609339374-x0hr9rs.png",
+      "categoryId": "cat-1773609299575"
+    },
+    {
+      "id": "1773609353586-nd6p0vo",
+      "src": "/uploads/1773609353586-nd6p0vo.png",
+      "categoryId": "cat-1773609299575"
+    },
+    {
+      "id": "1773609375447-5m3xxvb",
+      "src": "/uploads/1773609375447-5m3xxvb.png",
+      "categoryId": "cat-1773609299575"
+    }
+  ],
+  "aboutGrids": [
+    {
+      "id": "1",
+      "text": "Interior wall painting"
+    },
+    {
+      "id": "2",
+      "text": "Ceiling painting"
+    },
+    {
+      "id": "3",
+      "text": "Color consultation"
+    },
+    {
+      "id": "4",
+      "text": "Surface preparation & finishing"
+    },
+    {
+      "id": "grid-1773598223246",
+      "text": "pierro"
+    }
+  ]
+}

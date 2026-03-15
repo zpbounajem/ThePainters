@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-yellow: #facc15;
+  --brand-yellow-bright: #fde047;
+  --bg: #fafaf9;
+  --fg: #1c1917;
+  --muted: #57534e;
+}
+
+.dark {
+  --bg: #0c0a09;
+  --fg: #fafaf9;
+  --muted: #a8a29e;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+[dir="rtl"] {
+  font-family: 'Segoe UI', 'Tahoma', 'Arial', sans-serif;
+}
+
+/* Heading typography */
+h1, h2, h3, .font-heading {
+  font-family: var(--font-heading), system-ui, sans-serif;
+  letter-spacing: 0.02em;
+}
+
+/* Admin grid/section boxes: fixed border size, same everywhere */
+.admin-grit {
+  @apply rounded-2xl border-2 border-neutral-700 bg-neutral-900/50 shadow-lg;
+}
+.admin-grit-inner {
+  @apply border-2 border-neutral-600;
+}
+
+/* Admin typography: same font and sizes across all admin pages */
+.admin-main {
+  @apply font-sans text-base;
+}
+.admin-page-title {
+  @apply font-heading text-xl font-bold tracking-tight text-brand-yellow;
+}
+.admin-section-title {
+  @apply font-heading text-lg font-semibold;
+}
+.admin-body {
+  @apply text-base;
+}
+.admin-muted {
+  @apply text-base text-neutral-400;
+}
+.admin-small {
+  @apply text-sm text-neutral-500;
+}
