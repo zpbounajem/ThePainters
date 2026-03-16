@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { AdminProvider, useAdmin } from '@/contexts/AdminContext';
 
 const NAV_LINKS = [
@@ -133,6 +133,7 @@ const NAV_ICONS: Record<string, (props: { className?: string }) => JSX.Element> 
 
 function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const { auth, error, password, setPassword, handleLogin, handleLogout, adminLabels } = useAdmin();
 
   if (!auth) {
@@ -184,9 +185,9 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="relative mx-auto flex max-w-6xl gap-4 px-4 py-6 sm:gap-6 lg:gap-8">
-      {/* Sidebar */}
-      <aside className="hidden w-60 shrink-0 md:block">
+    <div className="relative mx-auto flex max-w-6xl flex-col gap-4 px-4 py-6 sm:gap-6 lg:flex-row lg:gap-8">
+      {/* Sidebar – always visible (stacked on mobile, left on desktop) */}
+      <aside className="w-full shrink-0 md:w-60">
         <div className="h-full rounded-3xl border border-neutral-800 bg-gradient-to-b from-neutral-950/90 via-neutral-950/70 to-neutral-900/80 p-4 shadow-[0_20px_60px_rgba(0,0,0,0.9)]">
           <div className="mb-4 flex items-center justify-between gap-3 border-b border-neutral-800 pb-4">
             <div>
@@ -245,14 +246,51 @@ function AdminShell({ children }: { children: React.ReactNode }) {
       {/* Main */}
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-neutral-800 bg-neutral-950/80 px-4 py-3 shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur">
-          <div>
+          <div className="min-w-0 flex-1">
             <h1 className="admin-page-title">Admin dashboard</h1>
             <p className="admin-small">
               Edit your content, review messages, and curate the gallery in one place.
             </p>
           </div>
-          <div className="rounded-full border border-neutral-800 bg-neutral-900 px-3 py-1.5 text-xs text-neutral-400">
-            Signed in as <span className="font-semibold text-neutral-200">Administrator</span>
+          <div className="flex flex-col items-end gap-2">
+            <div className="flex items-center gap-2">
+              <div className="rounded-full border border-neutral-800 bg-neutral-900 px-3 py-1.5 text-xs text-neutral-400">
+                Signed in as <span className="font-semibold text-neutral-200">Administrator</span>
+              </div>
+              {/* Mobile logout button */}
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="inline-flex items-center rounded-full border border-neutral-700 bg-neutral-900 px-3 py-1.5 text-[11px] font-medium text-neutral-300 transition-colors hover:border-red-400/70 hover:bg-red-500/10 hover:text-red-200 md:hidden"
+              >
+                {adminLabels.logout}
+              </button>
+            </div>
+            {/* Mobile navigation pills */}
+            <div className="flex w-full flex-wrap items-center gap-2 md:hidden">
+              <span className="admin-small text-neutral-400">Sections</span>
+              <div className="flex w-full gap-2 overflow-x-auto pb-1">
+                {NAV_LINKS.map(({ href, key, labelKey }) => {
+                  const isActive = pathname === href;
+                  const Icon = NAV_ICONS[key];
+                  return (
+                    <button
+                      key={href}
+                      type="button"
+                      onClick={() => router.push(href)}
+                      className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap border ${
+                        isActive
+                          ? 'border-brand-yellow bg-brand-yellow/20 text-brand-yellow'
+                          : 'border-neutral-700 bg-neutral-900/80 text-neutral-300'
+                      }`}
+                    >
+                      <Icon className="h-3.5 w-3.5" />
+                      <span>{adminLabels[labelKey]}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </header>
 
