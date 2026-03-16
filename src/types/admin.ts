@@ -240,7 +240,6 @@ export const DEFAULT_LOCALE_KEYS: LocaleContent = {
     beforeAfterTitle: '',
     beforeAfterSubtitle: '',
     noBeforeAfter: '',
-    whatClientsSay: '',
     galleryTitle: '',
     contactNameLabel: '',
     contactNamePlaceholder: '',
