@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useAdmin } from '@/contexts/AdminContext';
 
 const inputClass =
@@ -7,8 +8,11 @@ const inputClass =
 const labelClass = 'admin-body mb-1.5 block font-medium text-neutral-300';
 
 export default function AdminBeforeAfterPage() {
+  const [justSetId, setJustSetId] = useState<string | null>(null);
   const {
+    adminLabels,
     content,
+    setFeaturedBeforeAfter,
     handleAddBeforeAfter,
     removeBeforeAfter,
     saveContent,
@@ -25,7 +29,7 @@ export default function AdminBeforeAfterPage() {
   return (
     <div className="space-y-8">
       <h1 className="admin-page-title">
-        Before & After
+        {adminLabels.beforeAfterTitle}
       </h1>
       <p className="admin-muted">
         Add pairs for the Before & After page. Upload &quot;before&quot; and &quot;after&quot;
@@ -100,13 +104,32 @@ export default function AdminBeforeAfterPage() {
                 )}
               </div>
               <span className="admin-muted flex-1">{pair.caption || '—'}</span>
-              <button
-                type="button"
-                onClick={() => removeBeforeAfter(pair.id)}
-                className="admin-body rounded-lg px-3 py-1.5 text-red-400 hover:bg-red-500/10"
-              >
-                Remove
-              </button>
+              <div className="flex gap-2">
+                <div className="flex flex-col items-end gap-1">
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      await setFeaturedBeforeAfter(pair.id);
+                      setJustSetId(pair.id);
+                    }}
+                    className="admin-body rounded-lg px-3 py-1.5 bg-brand-yellow/20 text-brand-yellow hover:bg-brand-yellow/30"
+                  >
+                    Set in home page
+                  </button>
+                  {justSetId === pair.id && (
+                    <span className="admin-small text-brand-yellow">
+                      Set for homepage. Visit Home to see it.
+                    </span>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeBeforeAfter(pair.id)}
+                  className="admin-body rounded-lg px-3 py-1.5 text-red-400 hover:bg-red-500/10"
+                >
+                  Remove
+                </button>
+              </div>
             </li>
           ))}
         </ul>

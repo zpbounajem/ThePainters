@@ -90,7 +90,7 @@ export default function GalleryWithFilters({ images, categories, labels }: Props
               key={img.id}
               type="button"
               onClick={() => setLightboxIndex(index)}
-              className="relative aspect-square overflow-hidden rounded-lg bg-neutral-800 text-left focus:outline-none focus:ring-2 focus:ring-brand-yellow focus:ring-offset-2 focus:ring-offset-neutral-950"
+              className="relative aspect-square overflow-hidden rounded-lg bg-neutral-900/70 border border-neutral-800 text-left focus:outline-none focus:ring-2 focus:ring-brand-yellow focus:ring-offset-2 focus:ring-offset-neutral-950"
             >
               <Image
                 src={img.src}
@@ -126,16 +126,16 @@ export default function GalleryWithFilters({ images, categories, labels }: Props
 
   // My Albums view – grid of album covers like the phone
   return (
-    <section className="space-y-8">
+    <section className="space-y-10">
       <div className="text-center">
         <h1 className="text-3xl font-bold text-brand-yellow">{labels.ourWork}</h1>
-        <p className="mt-2 text-neutral-600 dark:text-neutral-400">
+        <p className="mt-2 text-neutral-400">
           {labels.subtitle}
         </p>
       </div>
 
       {albums.length === 0 ? (
-        <div className="rounded-2xl border-2 border-dashed border-neutral-300 bg-white p-12 text-center text-neutral-500 dark:border-neutral-700 dark:bg-neutral-900/50">
+        <div className="rounded-2xl border border-brand-yellow/30 bg-neutral-950/70 p-12 text-center text-neutral-300 shadow-[0_0_30px_rgba(0,0,0,0.6)]">
           <p>{labels.noPhotos}</p>
         </div>
       ) : (
@@ -147,22 +147,22 @@ export default function GalleryWithFilters({ images, categories, labels }: Props
                 key={album.id}
                 type="button"
                 onClick={() => setSelectedAlbum(album)}
-                className="rounded-full px-3 py-1.5 text-sm font-medium bg-neutral-800 text-neutral-300 hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-brand-yellow focus:ring-offset-2 focus:ring-offset-neutral-950 transition-colors"
+                className="rounded-full px-3 py-1.5 text-sm font-medium bg-neutral-950/60 border border-neutral-800 text-neutral-300 hover:border-brand-yellow hover:text-brand-yellow focus:outline-none focus:ring-2 focus:ring-brand-yellow focus:ring-offset-2 focus:ring-offset-neutral-950 transition-colors"
               >
                 {album.name}
               </button>
             ))}
           </div>
-          <h2 className="text-xl font-semibold text-neutral-300">{labels.albums}</h2>
+          <h2 className="text-xl font-semibold text-neutral-50">{labels.albums}</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
             {albums.map((album) => (
               <button
                 key={album.id}
                 type="button"
                 onClick={() => setSelectedAlbum(album)}
-                className="group text-left focus:outline-none focus:ring-2 focus:ring-brand-yellow focus:ring-offset-2 focus:ring-offset-neutral-950 rounded-xl overflow-hidden"
+                className="group text-left focus:outline-none focus:ring-2 focus:ring-brand-yellow focus:ring-offset-2 focus:ring-offset-neutral-950 rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-950/60 hover:border-brand-yellow/70 hover:bg-neutral-900/70 transition-colors"
               >
-                <div className="relative aspect-square overflow-hidden rounded-t-xl bg-neutral-800">
+                <div className="relative aspect-square overflow-hidden bg-neutral-900">
                   <Image
                     src={album.images[0].src}
                     alt=""
@@ -171,9 +171,9 @@ export default function GalleryWithFilters({ images, categories, labels }: Props
                     sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
                   />
                 </div>
-                <div className="rounded-b-xl border border-t-0 border-neutral-700 bg-neutral-900/80 px-3 py-2.5">
-                  <p className="font-medium text-neutral-100 truncate">{album.name}</p>
-                  <p className="text-sm text-neutral-500">
+                <div className="border-t border-neutral-800 bg-neutral-950/80 px-3 py-2.5">
+                  <p className="font-medium text-neutral-50 truncate">{album.name}</p>
+                  <p className="text-sm text-neutral-400">
                     {album.images.length} {album.images.length === 1 ? labels.photo : labels.photos}
                   </p>
                 </div>

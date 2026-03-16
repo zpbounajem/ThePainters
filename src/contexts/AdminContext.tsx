@@ -19,8 +19,10 @@ import type {
   GalleryCategory,
   TestimonialItem,
   FAQItem,
+  AdminLabels,
 } from '@/types/admin';
-import { DEFAULT_HOME_CARDS } from '@/types/admin';
+import { DEFAULT_HOME_CARDS, DEFAULT_ADMIN_LABELS } from '@/types/admin';
+import { getLocaleFromCookieString } from '@/lib/i18n';
 
 const MESSAGES_PAGE_SIZE = 15;
 
@@ -61,6 +63,7 @@ type AdminContextValue = {
   addAboutGrid: () => void;
   removeAboutGrid: (id: string) => void;
   updateAboutGrid: (id: string, text: string) => void;
+  updateAboutGridByLocale: (id: string, locale: string, value: string) => void;
   homeCards: HomeCardItem[];
   updateHomeCard: (id: string, field: keyof HomeCardItem, value: string) => void;
   updateHomeCardByLocale: (id: string, field: 'title' | 'description', locale: string, value: string) => void;
@@ -80,6 +83,9 @@ type AdminContextValue = {
   setBeforeAfterAfter: (f: File | null) => void;
   beforeAfterCaption: string;
   setBeforeAfterCaption: (s: string) => void;
+  locale: string;
+  adminLabels: AdminLabels;
+  setFeaturedBeforeAfter: (id: string) => Promise<void>;
 };
 
 const AdminContext = createContext<AdminContextValue | null>(null);
@@ -89,7 +95,20 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const [auth, setAuth] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [content, setContent] = useState<Content | null>(null);
+  const [locale, setLocale] = useState('en');
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    setLocale(getLocaleFromCookieString(document.cookie));
+  }, []);
+
+  const adminLabels = useMemo(
+    (): AdminLabels => ({
+      ...DEFAULT_ADMIN_LABELS,
+      ...(content?.localeContent?.[locale]?.admin ?? {}),
+    }),
+    [content?.localeContent, locale]
+  );
   const [uploading, setUploading] = useState(false);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [uploadCategory, setUploadCategory] = useState('');
@@ -372,6 +391,29 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const setFeaturedBeforeAfter = useCallback(
+    async (id: string) => {
+      if (!auth || !content) return;
+      const next: Content = { ...content, featuredBeforeAfterId: id };
+      setContent(next);
+      setSaving(true);
+      setError('');
+      try {
+        const res = await fetch('/api/content', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'x-admin-auth': auth },
+          body: JSON.stringify(next),
+        });
+        if (!res.ok) throw new Error('Save failed');
+      } catch {
+        setError('Failed to save');
+      } finally {
+        setSaving(false);
+      }
+    },
+    [auth, content]
+  );
+
   const bioValue = typeof content?.bio === 'string' ? content.bio : content?.bio?.en ?? '';
   const setBioValue = useCallback(
     (value: string) => setContent((prev) => (prev ? { ...prev, bio: value } : prev)),
@@ -403,6 +445,20 @@ export function AdminProvider({ children }: { children: ReactNode }) {
           }
         : prev
     );
+  }, []);
+  const updateAboutGridByLocale = useCallback((id: string, locale: string, value: string) => {
+    setContent((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        aboutGrids: (prev.aboutGrids ?? []).map((g) => {
+          if (g.id !== id) return g;
+          const next = { ...(g.textByLocale ?? {}) };
+          next[locale] = value;
+          return { ...g, text: locale === 'en' ? value : g.text, textByLocale: next };
+        }),
+      };
+    });
   }, []);
 
   const homeCards = useMemo(
@@ -551,6 +607,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     addAboutGrid,
     removeAboutGrid,
     updateAboutGrid,
+    updateAboutGridByLocale,
     homeCards,
     updateHomeCard,
     updateHomeCardByLocale,
@@ -568,8 +625,11 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     setBeforeAfterBefore,
     beforeAfterAfter,
     setBeforeAfterAfter,
-    beforeAfterCaption,
-    setBeforeAfterCaption,
+  beforeAfterCaption,
+  setBeforeAfterCaption,
+  locale,
+  adminLabels,
+  setFeaturedBeforeAfter,
   };
 
   return <AdminContext.Provider value={value}>{children}</AdminContext.Provider>;

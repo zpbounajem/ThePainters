@@ -6,6 +6,7 @@ const MESSAGES_PAGE_SIZE = 15;
 
 export default function AdminMessagesPage() {
   const {
+    adminLabels,
     messageFilter,
     setMessageFilter,
     messageSearch,
@@ -23,7 +24,7 @@ export default function AdminMessagesPage() {
   return (
     <div className="space-y-8">
       <h1 className="admin-page-title">
-        Messages from Contact
+        {adminLabels.messagesTitle}
       </h1>
       <p className="admin-muted">
         Inquiries sent from the Contact page. Click a message to mark it as read.

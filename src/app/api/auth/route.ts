@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
-const ADMIN_PASSWORD =
-  process.env.NODE_ENV === 'production'
-    ? process.env.ADMIN_PASSWORD
-    : (process.env.ADMIN_PASSWORD || 'admin1234');
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'zyvania';
 
 export async function POST(request: NextRequest) {
   const ip = getClientIp(request);

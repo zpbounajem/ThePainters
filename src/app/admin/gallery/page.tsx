@@ -15,6 +15,7 @@ export default function AdminGalleryPage() {
     updateGalleryCategory,
     updateGalleryCategoryNameByLocale,
     setImageCategory,
+    adminLabels,
     handleUpload,
     handleDeleteImage,
     saveContent,
@@ -28,11 +29,11 @@ export default function AdminGalleryPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="admin-page-title">Gallery</h1>
+      <h1 className="admin-page-title">{adminLabels.gallery}</h1>
 
       <section className="admin-grit p-6">
         <h2 className="admin-section-title mb-4 text-brand-yellow">
-          Gallery categories
+          {adminLabels.galleryCategories}
         </h2>
         <p className="admin-muted mb-4">
           Create categories (e.g. Doors, Walls, Ceilings) and add names in each language so visitors
@@ -67,10 +68,10 @@ export default function AdminGalleryPage() {
                   type="button"
                   onClick={() => removeGalleryCategory(cat.id)}
                   className="admin-body shrink-0 rounded-lg px-3 py-2 text-red-400 transition-colors hover:bg-red-500/10 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-neutral-900"
-                  aria-label={`Remove category ${cat.name || cat.id}`}
-                >
-                  Remove
-                </button>
+                aria-label={`${adminLabels.remove} ${cat.name || cat.id}`}
+              >
+                {adminLabels.remove}
+              </button>
               </li>
             );
           })}
@@ -80,13 +81,13 @@ export default function AdminGalleryPage() {
           onClick={addGalleryCategory}
           className="admin-body rounded-lg border border-neutral-600 bg-neutral-800 px-3 py-1.5 font-medium text-neutral-200 transition-colors hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-brand-yellow focus:ring-offset-2 focus:ring-offset-neutral-900"
         >
-          + Add category
+          {adminLabels.addCategory}
         </button>
       </section>
 
       <section className="admin-grit p-6">
         <h2 className="admin-section-title mb-4 text-brand-yellow">
-          Manage gallery
+          {adminLabels.manageGallery}
         </h2>
         <p className="admin-muted mb-4">
           Assign each image to a category. Images without a category appear under
@@ -176,7 +177,7 @@ export default function AdminGalleryPage() {
             disabled={saving}
             className="rounded-lg bg-brand-yellow px-5 py-2.5 font-semibold text-neutral-900 transition-colors hover:bg-brand-yellow-dark focus:outline-none focus:ring-2 focus:ring-brand-yellow focus:ring-offset-2 focus:ring-offset-neutral-900 disabled:pointer-events-none disabled:opacity-50"
           >
-            {saving ? 'Saving…' : 'Save content'}
+            {saving ? adminLabels.saving : adminLabels.saveContent}
           </button>
         </div>
       </section>

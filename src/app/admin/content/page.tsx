@@ -10,11 +10,49 @@ const inputClass =
 const labelClass = 'admin-body mb-1.5 block font-medium text-neutral-300';
 
 const TABS = [
-  { id: 'general', label: 'General' },
-  { id: 'home-about', label: 'Home & About' },
-  { id: 'legal-seo', label: 'Legal & SEO' },
-  { id: 'languages', label: 'Languages' },
+  { id: 'general', labelKey: 'general' as const },
+  { id: 'home-about', labelKey: 'homeAbout' as const },
+  { id: 'legal-seo', labelKey: 'legalSeo' as const },
+  { id: 'languages', labelKey: 'languages' as const },
 ] as const;
+
+const HOME_PAGE_TEXT_KEYS: { key: keyof LocaleContent['pages']; label: string }[] = [
+  { key: 'homeWelcome', label: 'Welcome paragraph' },
+  { key: 'homeStatProjectsLabel', label: 'Rooms painted – label' },
+  { key: 'homeStatProjectsValue', label: 'Rooms painted – value' },
+  { key: 'homeStatExperienceLabel', label: 'Years experience – label' },
+  { key: 'homeStatExperienceValue', label: 'Years experience – value' },
+  { key: 'homeStatCoverageLabel', label: 'Areas served – label' },
+  { key: 'homeStatCoverageValue', label: 'Areas served – value' },
+  { key: 'servicesTitle', label: 'Services section – title' },
+  { key: 'servicesSubtitle', label: 'Services section – subtitle' },
+  { key: 'serviceApartmentsTitle', label: 'Card: Apartments – title' },
+  { key: 'serviceApartmentsDescription', label: 'Card: Apartments – description' },
+  { key: 'serviceHousesTitle', label: 'Card: Houses & villas – title' },
+  { key: 'serviceHousesDescription', label: 'Card: Houses & villas – description' },
+  { key: 'serviceOfficesTitle', label: 'Card: Offices & studios – title' },
+  { key: 'serviceOfficesDescription', label: 'Card: Offices & studios – description' },
+  { key: 'serviceTouchupsTitle', label: 'Card: Renovation touch‑ups – title' },
+  { key: 'serviceTouchupsDescription', label: 'Card: Renovation touch‑ups – description' },
+  { key: 'featuredSubtitle', label: 'Featured block – main subtitle' },
+  { key: 'featuredBeforeLabel', label: 'Featured block – Before label' },
+  { key: 'featuredBeforeText', label: 'Featured block – Before text' },
+  { key: 'featuredAfterLabel', label: 'Featured block – After label' },
+  { key: 'featuredAfterText', label: 'Featured block – After text' },
+  { key: 'featuredDetailsTitle', label: 'Featured block – Project snapshot title' },
+  { key: 'featuredDetailsText', label: 'Featured block – Project snapshot text' },
+  { key: 'featuredDurationLabel', label: 'Featured stats – Duration label' },
+  { key: 'featuredDurationValue', label: 'Featured stats – Duration value' },
+  { key: 'featuredRoomsLabel', label: 'Featured stats – Rooms label' },
+  { key: 'featuredRoomsValue', label: 'Featured stats – Rooms value' },
+  { key: 'featuredCityLabel', label: 'Featured stats – City label' },
+  { key: 'featuredCityValue', label: 'Featured stats – City value' },
+  { key: 'featuredFinishLabel', label: 'Featured stats – Finish label' },
+  { key: 'featuredFinishValue', label: 'Featured stats – Finish value' },
+  { key: 'testimonialsKicker', label: 'Testimonials – small heading (e.g. CLIENT FEEDBACK)' },
+  { key: 'whatClientsSay', label: 'Testimonials – main title (e.g. What clients say)' },
+  { key: 'testimonialsSubtitle', label: 'Testimonials – subtitle text' },
+];
 
 export default function AdminContentPage() {
   const [tab, setTab] = useState<(typeof TABS)[number]['id']>('general');
@@ -23,21 +61,24 @@ export default function AdminContentPage() {
     setContent,
     saving,
     handleSaveContent,
+    saveContent,
     bioValue,
     setBioValue,
     aboutGrids,
     addAboutGrid,
     removeAboutGrid,
     updateAboutGrid,
+    updateAboutGridByLocale,
     homeCards,
     updateHomeCard,
     updateHomeCardByLocale,
+    adminLabels,
   } = useAdmin();
 
   if (!content) {
     return (
       <div className="admin-grit admin-body p-8 text-center text-neutral-500">
-        Loading content…
+        {adminLabels.loading}
       </div>
     );
   }
@@ -46,7 +87,7 @@ export default function AdminContentPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="admin-page-title">
-          Edit content
+          {adminLabels.editContent}
         </h1>
         <div className="admin-grit-inner flex rounded-lg bg-neutral-800/50 p-1">
           {TABS.map((t) => (
@@ -58,7 +99,7 @@ export default function AdminContentPage() {
                 tab === t.id ? 'bg-brand-yellow text-neutral-900' : 'text-neutral-400 hover:text-neutral-200'
               }`}
             >
-              {t.label}
+              {adminLabels[t.labelKey]}
             </button>
           ))}
         </div>
@@ -73,11 +114,11 @@ export default function AdminContentPage() {
           <div className="space-y-6">
             <section>
               <h2 className="admin-section-title mb-3 uppercase tracking-wider text-neutral-400">
-                Bio & Contact
+                {adminLabels.bioAndContact}
               </h2>
               <div>
                 <label htmlFor="admin-bio" className={labelClass}>
-                  Bio
+                  {adminLabels.bioEnglish}
                 </label>
                 <textarea
                   id="admin-bio"
@@ -88,6 +129,22 @@ export default function AdminContentPage() {
                   placeholder="Artist bio..."
                 />
               </div>
+              <div className="mt-3">
+                <label htmlFor="admin-bio-ar" className={labelClass}>
+                  {adminLabels.bioArabic}
+                </label>
+                <textarea
+                  id="admin-bio-ar"
+                  value={content.bioAr ?? ''}
+                  onChange={(e) => setContent((prev) => (prev ? { ...prev, bioAr: e.target.value } : prev))}
+                  rows={4}
+                  className={`${inputClass} min-h-[100px] resize-y`}
+                  placeholder="السيرة بالعربية..."
+                />
+              </div>
+              <h3 className="admin-section-title mt-6 mb-2 text-neutral-400">
+                {adminLabels.contactDetails}
+              </h3>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 <div>
                   <label htmlFor="admin-instagram" className={labelClass}>
@@ -193,7 +250,7 @@ export default function AdminContentPage() {
                 </div>
                 <div className="sm:col-span-2">
                   <h3 className="admin-section-title mb-2 text-neutral-300">
-                    Contact form – success message (per language)
+                    {adminLabels.successMessagePerLanguage}
                   </h3>
                   <p className="admin-small mb-2">
                     Message shown after the user submits the contact form. Add one per language.
@@ -236,85 +293,117 @@ export default function AdminContentPage() {
           <div className="space-y-8">
             <section>
               <h2 className="admin-section-title mb-3 uppercase tracking-wider text-neutral-400">
-                Home page – Feature cards
+                Home page – Text (per language)
               </h2>
               <p className="admin-small mb-3">
-                The three cards on the homepage. Icon can be an emoji (e.g. 🎨 📍 📸).
+                Edit the main homepage texts in English and Arabic. These control the welcome paragraph, stats,
+                service cards, featured before/after block, and testimonials heading.
               </p>
               <div className="space-y-4">
-                {homeCards.map((card) => (
-                  <div
-                    key={card.id}
-                    className="admin-grit-inner space-y-3 rounded-lg bg-neutral-800/50 p-4"
-                  >
-                    <div className="admin-muted font-medium">
-                      Card {card.id === '1' ? '1' : card.id === '2' ? '2' : '3'}
-                    </div>
-                    <div className="grid gap-3 sm:grid-cols-3">
-                      <div>
-                        <label className="admin-small mb-1 block">Icon (emoji)</label>
-                        <input
-                          type="text"
-                          value={card.icon}
-                          onChange={(e) => updateHomeCard(card.id, 'icon', e.target.value)}
-                          className={`${inputClass} py-2`}
-                          placeholder="🎨"
-                        />
-                      </div>
-                      <div className="sm:col-span-2">
-                        <label className="admin-small mb-1 block">Title</label>
-                        <input
-                          type="text"
-                          value={card.title}
-                          onChange={(e) => updateHomeCard(card.id, 'title', e.target.value)}
-                          className={`${inputClass} py-2`}
-                          placeholder="e.g. Interior Painting"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="admin-small mb-1 block">Description</label>
-                      <input
-                        type="text"
-                        value={card.description}
-                        onChange={(e) => updateHomeCard(card.id, 'description', e.target.value)}
-                        className={`${inputClass} py-2`}
-                        placeholder="e.g. Walls & ceilings, quality finishes"
-                      />
-                    </div>
-                    <div className="border-t border-neutral-600 pt-3 mt-3">
-                      <span className="admin-small font-medium block mb-2">Per language (optional)</span>
-                      {(content.languages ?? [{ code: 'en', name: 'English' }, { code: 'ar', name: 'العربية' }]).map(
-                        (lang: { code: string; name: string }) => (
-                          <div key={lang.code} className="grid gap-2 sm:grid-cols-2 mb-2">
-                            <div>
-                              <label className="admin-small mb-0.5 block">{lang.name} – Title</label>
+                {(content.languages ?? [{ code: 'en', name: 'English' }, { code: 'ar', name: 'العربية' }]).map(
+                  (lang: { code: string; name: string }) => {
+                    const loc =
+                      (content.localeContent?.[lang.code] as LocaleContent | undefined) ?? DEFAULT_LOCALE_KEYS;
+                    return (
+                      <div
+                        key={lang.code}
+                        className="admin-grit-inner rounded-lg bg-neutral-800/40 p-4 space-y-3"
+                      >
+                        <h3 className="admin-body font-semibold text-brand-yellow">
+                          {lang.name} ({lang.code})
+                        </h3>
+                        <div className="grid gap-3 md:grid-cols-2">
+                          {HOME_PAGE_TEXT_KEYS.map(({ key, label }) => (
+                            <div key={key}>
+                              <label className="admin-small mb-0.5 block">{label}</label>
                               <input
                                 type="text"
-                                value={(card as { titleByLocale?: Record<string, string> }).titleByLocale?.[lang.code] ?? (lang.code === 'en' ? card.title : '')}
-                                onChange={(e) => updateHomeCardByLocale(card.id, 'title', lang.code, e.target.value)}
-                                className={`${inputClass} py-1.5 text-sm`}
-                                placeholder={lang.code === 'en' ? card.title : ''}
+                                value={loc.pages?.[key] ?? ''}
+                                onChange={(e) =>
+                                  setContent((prev) => {
+                                    if (!prev) return prev;
+                                    const nextLocale = { ...(prev.localeContent ?? {}) };
+                                    const current =
+                                      (nextLocale[lang.code] as LocaleContent | undefined) ??
+                                      DEFAULT_LOCALE_KEYS;
+                                    nextLocale[lang.code] = {
+                                      ...current,
+                                      pages: { ...(current.pages ?? {}), [key]: e.target.value },
+                                    };
+                                    return { ...prev, localeContent: nextLocale };
+                                  })
+                                }
+                                className={inputClass}
+                                placeholder={label}
                               />
                             </div>
-                            <div>
-                              <label className="admin-small mb-0.5 block">{lang.name} – Description</label>
-                              <input
-                                type="text"
-                                value={(card as { descriptionByLocale?: Record<string, string> }).descriptionByLocale?.[lang.code] ?? (lang.code === 'en' ? card.description : '')}
-                                onChange={(e) => updateHomeCardByLocale(card.id, 'description', lang.code, e.target.value)}
-                                className={`${inputClass} py-1.5 text-sm`}
-                                placeholder={lang.code === 'en' ? card.description : ''}
-                              />
-                            </div>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </div>
-                ))}
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+              <div className="mt-4">
+                <button
+                  type="button"
+                  onClick={saveContent}
+                  disabled={saving}
+                  className="rounded-lg bg-brand-yellow px-4 py-2 text-sm font-semibold text-neutral-900 hover:bg-brand-yellow-dark disabled:opacity-60 disabled:pointer-events-none"
+                >
+                  {saving ? adminLabels.saving : 'Save home page'}
+                </button>
               </div>
             </section>
+
+            <section>
+              <h2 className="admin-section-title mb-3 uppercase tracking-wider text-neutral-400">
+                Home page – Hero image
+              </h2>
+              <p className="admin-small mb-2">
+                Choose which gallery image appears on the right of the homepage hero.
+              </p>
+              <div className="grid gap-3 sm:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] items-start">
+                <select
+                  value={(content as any).homeHeroImageSrc ?? ''}
+                  onChange={(e) =>
+                    setContent((prev) =>
+                      prev ? ({ ...prev, homeHeroImageSrc: e.target.value } as any) : prev
+                    )
+                  }
+                  className={inputClass}
+                >
+                  <option value="">Use first gallery image automatically</option>
+                  {(content.galleryImages ?? []).map((img: { id: string; src: string }) => (
+                    <option key={img.id} value={img.src}>
+                      {img.src}
+                    </option>
+                  ))}
+                </select>
+                <div className="admin-grit-inner rounded-lg border border-neutral-700 bg-neutral-900/60 p-2 text-center text-xs text-neutral-400">
+                  {(content as any).homeHeroImageSrc ? (
+                    <div className="space-y-2">
+                      <div className="aspect-video w-full overflow-hidden rounded-md bg-neutral-800">
+                        {/* Preview rendered on client via regular <img> to avoid Next/Image in admin */}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={(content as any).homeHeroImageSrc}
+                          alt="Hero preview"
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                      <div className="break-all">
+                        {(content as any).homeHeroImageSrc}
+                      </div>
+                    </div>
+                  ) : (
+                    <span>No image selected – homepage will use the first gallery image.</span>
+                  )}
+                </div>
+              </div>
+            </section>
+
+            {/* Home page – old feature cards removed since they are no longer used */}
 
             <section>
               <div className="mb-2 flex items-center justify-between">
@@ -332,29 +421,40 @@ export default function AdminContentPage() {
               <p className="admin-small mb-3">
                 Service list on the About page.
               </p>
-              <ul className="space-y-2">
-                {aboutGrids.map((item) => (
-                  <li
-                    key={item.id}
-                    className="admin-grit-inner flex flex-wrap items-center gap-2 rounded-lg bg-neutral-800/50 p-2 sm:flex-nowrap"
-                  >
-                    <input
-                      type="text"
-                      value={item.text}
-                      onChange={(e) => updateAboutGrid(item.id, e.target.value)}
-                      className={`${inputClass} min-w-0 flex-1 py-2`}
-                      placeholder="e.g. Interior wall painting"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeAboutGrid(item.id)}
-                      className="admin-body shrink-0 rounded-lg px-3 py-2 text-red-400 hover:bg-red-500/10"
-                      aria-label="Remove"
+              <ul className="space-y-3">
+                {aboutGrids.map((item) => {
+                  const itemWithLocale = item as { textByLocale?: Record<string, string> };
+                  const languages = content.languages ?? [{ code: 'en', name: 'English' }, { code: 'ar', name: 'العربية' }];
+                  return (
+                    <li
+                      key={item.id}
+                      className="admin-grit-inner flex flex-wrap items-end gap-2 rounded-lg bg-neutral-800/50 p-3"
                     >
-                      Remove
-                    </button>
-                  </li>
-                ))}
+                      <div className="flex flex-wrap gap-2 min-w-0 flex-1">
+                        {languages.map((lang: { code: string; name: string }) => (
+                          <div key={lang.code} className="min-w-[140px] flex-1">
+                            <label className="admin-small mb-0.5 block">{lang.name} ({lang.code})</label>
+                            <input
+                              type="text"
+                              value={itemWithLocale.textByLocale?.[lang.code] ?? (lang.code === 'en' ? item.text : '')}
+                              onChange={(e) => updateAboutGridByLocale(item.id, lang.code, e.target.value)}
+                              className={`${inputClass} py-2`}
+                              placeholder={lang.code === 'en' ? 'e.g. Interior wall painting' : ''}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeAboutGrid(item.id)}
+                        className="admin-body shrink-0 rounded-lg px-3 py-2 text-red-400 hover:bg-red-500/10"
+                        aria-label={adminLabels.remove}
+                      >
+                        {adminLabels.remove}
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
               {aboutGrids.length === 0 && (
                 <p className="admin-muted rounded-lg border border-dashed border-neutral-600 py-4 text-center">
@@ -365,52 +465,66 @@ export default function AdminContentPage() {
 
             <section>
               <h2 className="admin-section-title mb-3 uppercase tracking-wider text-neutral-400">
-                Testimonials (home page)
+                Testimonials (home page) – per language
               </h2>
-              <p className="admin-small mb-3">Name and quote. Optional: image URL.</p>
+              <p className="admin-small mb-3">Name and quote in each language. Optional: image URL.</p>
               <ul className="space-y-3">
-                {(content.testimonials ?? []).map((t: TestimonialItem) => (
+                {(content.testimonials ?? []).map((t: TestimonialItem & { nameByLocale?: Record<string, string>; quoteByLocale?: Record<string, string> }) => {
+                  const langs = content.languages ?? [{ code: 'en', name: 'English' }, { code: 'ar', name: 'العربية' }];
+                  return (
                   <li
                     key={t.id}
-                    className="admin-grit-inner space-y-2 rounded-lg bg-neutral-800/50 p-3"
+                    className="admin-grit-inner space-y-3 rounded-lg bg-neutral-800/50 p-3"
                   >
-                    <input
-                      type="text"
-                      value={t.name}
-                      onChange={(e) =>
-                        setContent((prev) =>
-                          prev
-                            ? {
-                                ...prev,
-                                testimonials: (prev.testimonials ?? []).map((x) =>
-                                  x.id === t.id ? { ...x, name: e.target.value } : x
-                                ),
-                              }
-                            : prev
-                        )
-                      }
-                      className={`${inputClass} py-2`}
-                      placeholder="Name"
-                    />
-                    <textarea
-                      value={t.quote}
-                      onChange={(e) =>
-                        setContent((prev) =>
-                          prev
-                            ? {
-                                ...prev,
-                                testimonials: (prev.testimonials ?? []).map((x) =>
-                                  x.id === t.id ? { ...x, quote: e.target.value } : x
-                                ),
-                              }
-                            : prev
-                        )
-                      }
-                      rows={2}
-                      className={`${inputClass} py-2`}
-                      placeholder="Quote"
-                    />
-                    <div className="flex justify-between gap-2">
+                    {langs.map((lang: { code: string; name: string }) => (
+                      <div key={lang.code} className="grid gap-2 sm:grid-cols-2">
+                        <div>
+                          <label className="admin-small mb-0.5 block">{lang.name} – Name</label>
+                          <input
+                            type="text"
+                            value={t.nameByLocale?.[lang.code] ?? (lang.code === 'en' ? t.name : '')}
+                            onChange={(e) => {
+                              const v = e.target.value;
+                              setContent((prev) => {
+                                if (!prev) return prev;
+                                const next = (prev.testimonials ?? []).map((x) => {
+                                  if (x.id !== t.id) return x;
+                                  const nextName = { ...((x as { nameByLocale?: Record<string, string> }).nameByLocale ?? {}) };
+                                  nextName[lang.code] = v;
+                                  return { ...x, name: lang.code === 'en' ? v : x.name, nameByLocale: nextName };
+                                });
+                                return { ...prev, testimonials: next };
+                              });
+                            }}
+                            className={`${inputClass} py-2`}
+                            placeholder="Name"
+                          />
+                        </div>
+                        <div>
+                          <label className="admin-small mb-0.5 block">{lang.name} – Quote</label>
+                          <input
+                            type="text"
+                            value={t.quoteByLocale?.[lang.code] ?? (lang.code === 'en' ? t.quote : '')}
+                            onChange={(e) => {
+                              const v = e.target.value;
+                              setContent((prev) => {
+                                if (!prev) return prev;
+                                const next = (prev.testimonials ?? []).map((x) => {
+                                  if (x.id !== t.id) return x;
+                                  const nextQuote = { ...((x as { quoteByLocale?: Record<string, string> }).quoteByLocale ?? {}) };
+                                  nextQuote[lang.code] = v;
+                                  return { ...x, quote: lang.code === 'en' ? v : x.quote, quoteByLocale: nextQuote };
+                                });
+                                return { ...prev, testimonials: next };
+                              });
+                            }}
+                            className={`${inputClass} py-2`}
+                            placeholder="Quote"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                    <div className="flex justify-between gap-2 border-t border-neutral-600 pt-2">
                       <input
                         type="text"
                         value={t.image ?? ''}
@@ -443,11 +557,12 @@ export default function AdminContentPage() {
                         }
                         className="admin-body shrink-0 rounded-lg px-3 py-2 text-red-400 hover:bg-red-500/10"
                       >
-                        Remove
+                        {adminLabels.remove}
                       </button>
                     </div>
                   </li>
-                ))}
+                  );
+                })}
               </ul>
               <button
                 type="button"
@@ -472,51 +587,59 @@ export default function AdminContentPage() {
 
             <section>
               <h2 className="admin-section-title mb-3 uppercase tracking-wider text-neutral-400">
-                FAQ (about page)
+                FAQ (about page) – per language
               </h2>
-              <p className="admin-small mb-3">Question and answer pairs.</p>
+              <p className="admin-small mb-3">Question and answer in each language.</p>
               <ul className="space-y-3">
-                {(content.faq ?? []).map((item: FAQItem) => (
+                {(content.faq ?? []).map((item: FAQItem & { questionByLocale?: Record<string, string>; answerByLocale?: Record<string, string> }) => {
+                  const faqLangs = content.languages ?? [{ code: 'en', name: 'English' }, { code: 'ar', name: 'العربية' }];
+                  return (
                   <li
                     key={item.id}
-                    className="admin-grit-inner space-y-2 rounded-lg bg-neutral-800/50 p-3"
+                    className="admin-grit-inner space-y-3 rounded-lg bg-neutral-800/50 p-3"
                   >
-                    <input
-                      type="text"
-                      value={item.question}
-                      onChange={(e) =>
-                        setContent((prev) =>
-                          prev
-                            ? {
-                                ...prev,
-                                faq: (prev.faq ?? []).map((x) =>
-                                  x.id === item.id ? { ...x, question: e.target.value } : x
-                                ),
-                              }
-                            : prev
-                        )
-                      }
-                      className={`${inputClass} py-2`}
-                      placeholder="Question"
-                    />
-                    <textarea
-                      value={item.answer}
-                      onChange={(e) =>
-                        setContent((prev) =>
-                          prev
-                            ? {
-                                ...prev,
-                                faq: (prev.faq ?? []).map((x) =>
-                                  x.id === item.id ? { ...x, answer: e.target.value } : x
-                                ),
-                              }
-                            : prev
-                        )
-                      }
-                      rows={2}
-                      className={`${inputClass} py-2`}
-                      placeholder="Answer"
-                    />
+                    {faqLangs.map((lang: { code: string; name: string }) => (
+                      <div key={lang.code} className="space-y-2">
+                        <label className="admin-small block">{lang.name} – Question</label>
+                        <input
+                          type="text"
+                          value={item.questionByLocale?.[lang.code] ?? (lang.code === 'en' ? item.question : '')}
+                          onChange={(e) => {
+                            const v = e.target.value;
+                            setContent((prev) => {
+                              if (!prev) return prev;
+                              const next = (prev.faq ?? []).map((x) => {
+                                if (x.id !== item.id) return x;
+                                const nq = { ...(x.questionByLocale ?? {}), [lang.code]: v };
+                                return { ...x, question: lang.code === 'en' ? v : x.question, questionByLocale: nq };
+                              });
+                              return { ...prev, faq: next };
+                            });
+                          }}
+                          className={`${inputClass} py-2`}
+                          placeholder="Question"
+                        />
+                        <label className="admin-small block">{lang.name} – Answer</label>
+                        <textarea
+                          value={item.answerByLocale?.[lang.code] ?? (lang.code === 'en' ? item.answer : '')}
+                          onChange={(e) => {
+                            const v = e.target.value;
+                            setContent((prev) => {
+                              if (!prev) return prev;
+                              const next = (prev.faq ?? []).map((x) => {
+                                if (x.id !== item.id) return x;
+                                const na = { ...(x.answerByLocale ?? {}), [lang.code]: v };
+                                return { ...x, answer: lang.code === 'en' ? v : x.answer, answerByLocale: na };
+                              });
+                              return { ...prev, faq: next };
+                            });
+                          }}
+                          rows={2}
+                          className={`${inputClass} py-2`}
+                          placeholder="Answer"
+                        />
+                      </div>
+                    ))}
                     <button
                       type="button"
                       onClick={() =>
@@ -526,10 +649,11 @@ export default function AdminContentPage() {
                       }
                       className="admin-body rounded px-2 py-1 text-red-400 hover:bg-red-500/10"
                     >
-                      Remove
+                      {adminLabels.remove}
                     </button>
                   </li>
-                ))}
+                  );
+                })}
               </ul>
               <button
                 type="button"
@@ -782,16 +906,6 @@ export default function AdminContentPage() {
               )}
             </section>
 
-            <section>
-              <label className={labelClass}>Bio (Arabic, optional)</label>
-              <textarea
-                value={content.bioAr ?? ''}
-                onChange={(e) => setContent((prev) => (prev ? { ...prev, bioAr: e.target.value } : prev))}
-                rows={3}
-                className={`${inputClass} resize-y`}
-                placeholder="Same as bio in Arabic for bilingual support"
-              />
-            </section>
           </div>
         )}
 
@@ -998,7 +1112,7 @@ export default function AdminContentPage() {
             disabled={saving}
             className="rounded-lg bg-brand-yellow px-5 py-2.5 font-semibold text-neutral-900 transition-colors hover:bg-brand-yellow-dark focus:outline-none focus:ring-2 focus:ring-brand-yellow focus:ring-offset-2 focus:ring-offset-neutral-900 disabled:pointer-events-none disabled:opacity-50"
           >
-            {saving ? 'Saving…' : 'Save content'}
+            {saving ? adminLabels.saving : adminLabels.saveContent}
           </button>
         </div>
       </form>

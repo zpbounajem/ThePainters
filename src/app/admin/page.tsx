@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 export default function AdminPage() {
   const router = useRouter();
   useEffect(() => {
-    router.replace('/admin/content');
+    router.replace('/admin/home');
   }, [router]);
   return (
     <div className="flex min-h-[40vh] items-center justify-center">

@@ -2,10 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, readFile } from 'fs/promises';
 import path from 'path';
 
-const ADMIN_PASSWORD =
-  process.env.NODE_ENV === 'production'
-    ? process.env.ADMIN_PASSWORD
-    : (process.env.ADMIN_PASSWORD || 'admin1234');
+// Keep admin password logic in sync with /api/auth
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'zyvania';
 const CONTENT_PATH = path.join(process.cwd(), 'src/data/content.json');
 
 function checkAuth(request: NextRequest): boolean {

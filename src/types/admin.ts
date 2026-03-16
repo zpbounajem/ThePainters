@@ -50,10 +50,43 @@ export type SEOEntry = {
   descriptionByLocale?: Record<string, string>;
 };
 
+export type AdminLabels = {
+  admin: string;
+  logout: string;
+  content: string;
+  messages: string;
+  gallery: string;
+  beforeAfter: string;
+  homePage: string;
+  aboutPage: string;
+  password: string;
+  login: string;
+  editContent: string;
+  general: string;
+  homeAbout: string;
+  legalSeo: string;
+  languages: string;
+  saveContent: string;
+  galleryCategories: string;
+  manageGallery: string;
+  bioAndContact: string;
+  bioEnglish: string;
+  bioArabic: string;
+  contactDetails: string;
+  successMessagePerLanguage: string;
+  addCategory: string;
+  remove: string;
+  loading: string;
+  saving: string;
+  messagesTitle: string;
+  beforeAfterTitle: string;
+};
+
 export type LocaleContent = {
   nav: Record<string, string>;
   pages: Record<string, string>;
   footer: Record<string, string>;
+  admin?: Partial<AdminLabels>;
 };
 
 export type Content = {
@@ -74,6 +107,7 @@ export type Content = {
   testimonials?: TestimonialItem[];
   faq?: FAQItem[];
   beforeAfter?: BeforeAfterItem[];
+  featuredBeforeAfterId?: string;
   footer?: {
     copyrightText: string;
     privacyLink?: boolean;
@@ -110,6 +144,87 @@ export const DEFAULT_LOCALE_KEYS: LocaleContent = {
     homeTitle: '',
     homeSubtitle: '',
     homeWelcome: '',
+    homeBannerTitle: '',
+    homeBannerSubtitle: '',
+    homeBannerCta: '',
+    homeKicker: '',
+    homeHeroSecondary: '',
+    homePrimaryCta: '',
+    homeStatProjectsLabel: '',
+    homeStatProjectsValue: '',
+    homeStatExperienceLabel: '',
+    homeStatExperienceValue: '',
+    homeStatCoverageLabel: '',
+    homeStatCoverageValue: '',
+    heroCardLabel: '',
+    heroCardTitle: '',
+    heroCardBadge: '',
+    heroCardScopeLabel: '',
+    heroCardScope: '',
+    heroCardLocationLabel: '',
+    heroCardLocation: '',
+    heroCardFinishLabel: '',
+    heroCardFinish: '',
+    heroCardCareLabel: '',
+    heroCardCare: '',
+    servicesKicker: '',
+    servicesTitle: '',
+    servicesSubtitle: '',
+    serviceApartmentsTitle: '',
+    serviceApartmentsDescription: '',
+    serviceHousesTitle: '',
+    serviceHousesDescription: '',
+    serviceOfficesTitle: '',
+    serviceOfficesDescription: '',
+    serviceTouchupsTitle: '',
+    serviceTouchupsDescription: '',
+    featuredKicker: '',
+    featuredTitle: '',
+    featuredSubtitle: '',
+    featuredBeforeLabel: '',
+    featuredBeforeText: '',
+    featuredAfterLabel: '',
+    featuredAfterText: '',
+    featuredDetailsTitle: '',
+    featuredDetailsText: '',
+    featuredDurationLabel: '',
+    featuredDurationValue: '',
+    featuredRoomsLabel: '',
+    featuredRoomsValue: '',
+    featuredCityLabel: '',
+    featuredCityValue: '',
+    featuredFinishLabel: '',
+    featuredFinishValue: '',
+    featuredCta: '',
+    whyUsKicker: '',
+    whyUsTitle: '',
+    whyUsSubtitle: '',
+    whyOnTimeTitle: '',
+    whyOnTimeDescription: '',
+    whyCleanTitle: '',
+    whyCleanDescription: '',
+    whyQualityTitle: '',
+    whyQualityDescription: '',
+    whyPricingTitle: '',
+    whyPricingDescription: '',
+    processKicker: '',
+    processTitle: '',
+    processSubtitle: '',
+    processStep1Title: '',
+    processStep1Description: '',
+    processStep2Title: '',
+    processStep2Description: '',
+    processStep3Title: '',
+    processStep3Description: '',
+    processStep4Title: '',
+    processStep4Description: '',
+    testimonialsKicker: '',
+    testimonialsSubtitle: '',
+    whatClientsSay: '',
+    contactStripTitle: '',
+    contactStripSubtitle: '',
+    contactStripPrimaryCta: '',
+    contactStripSecondaryCta: '',
     viewOurWork: '',
     aboutTitle: '',
     aboutSubtitle: '',
@@ -150,6 +265,38 @@ export const DEFAULT_LOCALE_KEYS: LocaleContent = {
     galleryBackToAlbums: '',
   },
   footer: { privacy: '' },
+};
+
+export const DEFAULT_ADMIN_LABELS: AdminLabels = {
+  admin: 'Admin',
+  logout: 'Logout',
+  content: 'Content',
+  messages: 'Messages',
+  gallery: 'Gallery',
+  beforeAfter: 'Before & After',
+  homePage: 'Homepage',
+  aboutPage: 'About page',
+  password: 'Password',
+  login: 'Login',
+  editContent: 'Edit content',
+  general: 'General',
+  homeAbout: 'Home & About',
+  legalSeo: 'Legal & SEO',
+  languages: 'Languages',
+  saveContent: 'Save content',
+  galleryCategories: 'Gallery categories',
+  manageGallery: 'Manage gallery',
+  bioAndContact: 'Bio & Contact',
+  bioEnglish: 'Bio (English)',
+  bioArabic: 'Bio (Arabic)',
+  contactDetails: 'Contact details',
+  successMessagePerLanguage: 'Contact form – success message (per language)',
+  addCategory: '+ Add category',
+  remove: 'Remove',
+  loading: 'Loading content…',
+  saving: 'Saving…',
+  messagesTitle: 'Messages from Contact',
+  beforeAfterTitle: 'Before & After',
 };
 
 export const DEFAULT_HOME_CARDS: HomeCardItem[] = [

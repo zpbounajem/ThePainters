@@ -53,7 +53,7 @@ export default async function GalleryPage() {
   };
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-10 pb-12">
       <GalleryWithFilters images={images} categories={categories} labels={labels} />
     </section>
   );
